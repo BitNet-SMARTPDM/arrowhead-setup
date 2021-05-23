@@ -6,7 +6,7 @@ This project is derived and expanded from scripts and docker-compose found in [A
 
 
 ## Table of Contents <!-- omit in toc -->
-- [Running Arrowhead core systems with Docker](#running-arrowhead-core-systems-with-docker)
+- [Running Arrowhead-4.2.0 core systems with Docker](#running-arrowhead-core-systems-with-docker)
   - [Requirements](#requirements)
   - [Quick guide](#quick-guide)
   - [Create certificates](#create-certificates)
@@ -26,7 +26,7 @@ This project is derived and expanded from scripts and docker-compose found in [A
   - [Command line openssl unpack](#command-line-openssl-unpack)
 
 
-## Running Arrowhead core systems with Docker
+## Running Arrowhead-4.2.0 core systems with Docker
 Clone the repository to your machine with:
 ```
 https://github.com/BitNet-SMARTPDM/arrowhead-setup.git
