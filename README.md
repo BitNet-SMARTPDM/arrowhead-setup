@@ -1,8 +1,8 @@
 # arrowhead-setup <!-- omit in toc -->
-This project is derived and expanded from scripts and docker-compose found in [Arrowhead framework core project](https://github.com/eclipse-arrowhead/core-java-spring).
+This project is derived from [Arrowhead framework core project](https://github.com/eclipse-arrowhead/core-java-spring). The main purpose of this repository is get up and running Arrowhead-4.2.0 in your environment with docker.
 
-- Setup Arrowhead Framework core systems utilizing Docker and Docker-compose.
-- Create PKCS #12 certificates and unpack them for clients.
+- Setup Arrowhead Framework with Docker and Docker-compose.
+- Certification basics of clients, localclouds and globalclouds.
 
 
 ## Table of Contents <!-- omit in toc -->
@@ -26,21 +26,21 @@ This project is derived and expanded from scripts and docker-compose found in [A
   - [Command line openssl unpack](#command-line-openssl-unpack)
 
 
-## Running Arrowhead-4.2.0 core systems with Docker
+## <a name="running-arrowhead-core-systems-with-docker"></a>Running Arrowhead-4.2.0 core systems with Docker
 Clone the repository to your machine with:
 ```
 https://github.com/BitNet-SMARTPDM/arrowhead-setup.git
 ```
 
 
-### Requirements
+### <a name="requirements"></a>Requirements
 Requires Docker, which can be installed for Ubuntu or Raspberry Pi following the guide [here](https://docs.docker.com/engine/install/ubuntu/).  
 For windows you need to download and install [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
 You also need to separately install docker-compose on Linux systems to which instructions can be found [here](https://docs.docker.com/compose/install/)
 
 
-### Quick guide
+### <a name="quick-guide"></a>Quick guide
 Generate default certificates (may need to run `dos2unix` / `unix2dos` on the script):
 ```
 cd certs/scripts
@@ -70,11 +70,11 @@ https://localhost:8453  # Gateway
 ```
 
 
-### Create certificates
+### <a name="create-certificates"></a>Create certificates
 Certificates are needed for HTTPS communication between the Arrowhead core and client systems.
 
 
-#### Insert your information
+#### <a name="insert-your-information"></a>Insert your information
 Edit the script `./certs/scripts/create_p12_certs.sh` with your information to following fields:
 
 - COMPANY
@@ -91,7 +91,7 @@ Also remember to change Arrowhead core properties in `./core_system_config` fold
 - `server.ssl.key-alias`
 
 
-#### PKCS #12 password
+#### <a name="pkcs-12-password"></a>PKCS #12 password
 You may set your own password to the P12 files before creating the certificates.  
 By default the password is `123456`.
 
@@ -103,7 +103,7 @@ Also remember to set the same password to Arrowhead core properties in `./core_s
 - `server.ssl.trust-store-password`
 
 
-#### Run certificate generation script
+#### <a name="run-certificate-generation-script"></a>Run certificate generation script
 Create the certificates for both Arrowhead core systems and clients by running the script found in directory:
 ```
 cd ./certs/scripts
@@ -117,7 +117,7 @@ The script generates the certificates into a PKCS #12 (.p12) store within `./cer
 If you run into errors executing the script you may need to run `dos2unix` / `unix2dos` on the script depending on which OS you're using.
 
 
-### Start Arrowhead Core systems
+### <a name="start-arrowhead-core-systems"></a>Start Arrowhead Core systems
 Ensure you have the necessary .p12 certificates and truststore for the core systems in `./certs` folder.
 
 Change `MYSQL_ROOT_PASSWORD` within `docker-compose.yml`.
@@ -127,14 +127,14 @@ Once Docker is up and running you need to create a volume for the MariaDB databa
 docker volume create --name=mysql
 ```
 
-#### ...with default options
+#### <a name="with-default-options"></a>...with default options
 Run following command to start Arrowhead Core systems with existing docker images:
 ```
 docker-compose up --build
 ```
 
 
-#### ...with docker images from jars
+#### <a name="with-docker-images-from-jars"></a>...with docker images from jars
 Ensure `.jar` packages for core systems are located in `./jars` folder.
 Instuctions on how to build `.jar` files for Arrowhead core systems can be found in [core-java-spring](https://github.com/eclipse-arrowhead/core-java-spring) repository.
 
@@ -147,7 +147,7 @@ up --build
 
 You may need to use this option to get Arrowhead running on Raspberry Pi as existing docker images may not support RPi processor architecture.
 
-#### ...with lower memory usage (and less performance)
+#### <a name="with-lower-memory-usage-and-less-performance"></a>...with lower memory usage (and less performance)
 Recommended when running for example on Raspberry Pi
 
 ```
@@ -158,7 +158,7 @@ up --build
 ```
 
 
-#### ...with management tool
+#### <a name="with-management-tool"></a>...with management tool
 ```
 docker-compose \
 -f docker-compose.yml \
@@ -166,7 +166,7 @@ docker-compose \
 up --build
 ```
 
-#### ...with jars and low memory
+#### <a name="with-jars-and-low-memory"></a>...with jars and low memory
 ```
 docker-compose \
 -f docker-compose.yml \
@@ -175,7 +175,7 @@ docker-compose \
 up --build
 ```
 
-#### ...with all above options
+#### <a name="with-all-above-options"></a>...with all above options
 ```
 docker-compose \
 -f docker-compose.yml \
@@ -186,7 +186,7 @@ up --build
 ```
 
 
-### Shut down Arrowhead core systems
+### <a name="shut-down-arrowhead-core-systems"></a>Shut down Arrowhead core systems
 To stop running Arrowhead press `CTRL+C` to interrupt.  
 To clean up any remaining resources run:
 ```
@@ -194,9 +194,9 @@ docker-compose down
 ```
 
 
-## P12 certificate unpacking for clients
+## <a name="p12-certificate-unpacking-for-clients"></a>P12 certificate unpacking for clients
 
-### Shell script unpack_p12.sh
+### <a name="shell-script-unpack_p12sh"></a>Shell script unpack_p12.sh
 
 Utilizes openssl.  
 (May need to run `dos2unix` / `unix2dos` on the script)
@@ -214,7 +214,7 @@ Created file: ./certs/your_client.ca
 ```
 
 
-### Command line openssl unpack
+### <a name="command-line-openssl-unpack"></a>Command line openssl unpack
 
 Certificate
 ```
