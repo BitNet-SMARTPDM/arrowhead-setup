@@ -147,7 +147,7 @@ docker volume create --name=mysql
 The last step is, change the environment variables given in `docker-compose.mgmt_tool.yml` with your favorite editor. 
 The environment variables, should be like given below, if your are using localcloud
 - `REACT_APP_ARROWHEAD_SR_URL=https://localhost:8443`
-- `REACT_APP_ARROWHEAD_AUTH_URL=https://localhost:8445
+- `REACT_APP_ARROWHEAD_AUTH_URL=https://localhost:8445`
 - `REACT_APP_ARROWHEAD_ORCH_URL=https://localhost:8441`
 - `REACT_APP_ARROWHEAD_GK_URL=https://localhost:8449`
 - `REACT_APP_ARROWHEAD_GW_URL=https://localhost:8453`
