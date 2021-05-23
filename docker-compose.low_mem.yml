@@ -1,0 +1,32 @@
+version: "3"
+
+# Lowers memory usage of the services, but also lowers performance.
+
+services:
+  serviceregistry:
+    environment:
+      - JVM_FLAGS=-XX:+UseSerialGC -Xmx1G -Xms32m
+
+  authorization:
+    environment:
+      - JVM_FLAGS=-XX:+UseSerialGC -Xmx1G -Xms32m
+
+  orchestrator:
+    environment:
+      - JVM_FLAGS=-XX:+UseSerialGC -Xmx1G -Xms32m
+
+  gatekeeper:
+    environment:
+      - JVM_FLAGS=-XX:+UseSerialGC -Xmx1G -Xms32m
+
+  gateway:
+    environment:
+      - JVM_FLAGS=-XX:+UseSerialGC -Xmx1G -Xms32m
+
+#  eventhandler:
+#    environment:
+#      - JVM_FLAGS=-XX:+UseSerialGC -Xmx1G -Xms32m
+#
+#  certificateauthority:
+#    environment:
+#      - JVM_FLAGS=-XX:+UseSerialGC -Xmx1G -Xms32m

@@ -1,0 +1,17 @@
+version: "3"
+
+# Web based management tool for Arrowhead
+
+services:
+  management-tool:
+    container_name: management-tool
+    restart: unless-stopped
+    image: svetlint/management-tool:latest
+    environment:
+      - REACT_APP_ARROWHEAD_SR_URL=https://localhost:8443
+      - REACT_APP_ARROWHEAD_AUTH_URL=https://localhost:8445
+      - REACT_APP_ARROWHEAD_ORCH_URL=https://localhost:8441
+      - REACT_APP_ARROWHEAD_GK_URL=https://localhost:8449
+      - REACT_APP_ARROWHEAD_GW_URL=https://localhost:8453
+    ports:
+      - 5000:5000

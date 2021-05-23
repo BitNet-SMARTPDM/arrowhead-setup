@@ -1,151 +1,109 @@
-# arrowhead-setup
+# arrowhead-setup <!-- omit in toc -->
+This project is derived and expanded from scripts and docker-compose found in [Arrowhead framework core project](https://github.com/eclipse-arrowhead/core-java-spring).
 
-This project was created from scripts that can be found found in [Arrowhead framework core project](https://github.com/arrowhead-f/core-java-spring).
-We divided the Arrowhead installation into two subgroups;
-
-- Localclouds (install arrowhead services that it will run locally on your computer and Raspberry Pi)
-- Globalclouds (install arrowhead services that it will be reachable over a static ip or a DNS name)
-
-The main purpose of this division is pointing how the Arrowhead installations are differ between local and static ip or DNS especially on installation, certification, accessing management ui. All the installations depends on the docker. 
+- Setup Arrowhead Framework core systems utilizing Docker and Docker-compose.
+- Create PKCS #12 certificates and unpack them for clients.
 
 
-# Table of Contents
-- [The System Requirements](#TheSystemRequirements)
-- [Docker installation on Raspberry Pi and Ubuntu](#installation)
-  - [Install Docker on Raspbeery Pi](#DoR)
-  - [Install Docker on Ubuntu](#DoU)
-- [Certification](#cert)
-  - [Create certificates for localclouds](#cfl)
-  - [Create certificates for Globalclouds (DNS or StaticIP based)](#cfg)
-- [The checklist before starting Installation](#checklist)
-- [Up and Running Arrowhead Localcloud](#ilc)
-  - [Install Mimosa CBM](#miml)
-  - [Connect Spring UI's over Web Browsers on Windows and MAC](#lcgui)
-  - [Test Your Installation](#tyil)
-- [Install Globalcloud](#igc)
-  - [Get the Dockers up and running](#durg)
-  - [Install Mimosa CBM](#mimg)
-  - [Connect Spring UI's over Web Browsers on Windows and MAC](gcgui)
-  - [Test Your Installation](#tyi)
-- [Video Installation Guides](#vig)
+## Table of Contents <!-- omit in toc -->
+- [Running Arrowhead core systems with Docker](#running-arrowhead-core-systems-with-docker)
+  - [Requirements](#requirements)
+  - [Quick guide](#quick-guide)
+  - [Create certificates](#create-certificates)
+    - [Insert your information](#insert-your-information)
+    - [PKCS #12 password](#pkcs-12-password)
+    - [Run certificate generation script](#run-certificate-generation-script)
+  - [Start Arrowhead Core systems](#start-arrowhead-core-systems)
+    - [...with default options](#with-default-options)
+    - [...with docker images from jars](#with-docker-images-from-jars)
+    - [...with lower memory usage (and less performance)](#with-lower-memory-usage-and-less-performance)
+    - [...with management tool](#with-management-tool)
+    - [...with jars and low memory](#with-jars-and-low-memory)
+    - [...with all above options](#with-all-above-options)
+  - [Shut down Arrowhead core systems](#shut-down-arrowhead-core-systems)
+- [P12 certificate unpacking for clients](#p12-certificate-unpacking-for-clients)
+  - [Shell script unpack_p12.sh](#shell-script-unpack_p12sh)
+  - [Command line openssl unpack](#command-line-openssl-unpack)
 
-<!-- toc -->
 
-## <a name="TheSystemRequirements"></a>The System Requirements
-Global and Local installations with the all Arrowhead native services requires min 4GB RAM and 20GB HDD
-
-The Current Arrowhead docker images (svetlint) servers arrowhead 4.1.3 (the old version). In order to get have Arrowhead 4.2.0 you should apply below steps on your installation source. 
-
-During this installation we assume that you are root user. 
-
+## Running Arrowhead core systems with Docker
+Clone the repository to your machine with:
 ```
-git clone https://github.com/BitNet-SMARTPDM/arrowhead-setup.git
-git clone https://github.com/arrowhead-f/core-java-spring.git
-
-```
-After downloading the sources, you first compile the Arrowhead-4.2.0 from source. 
-Here is the sample compilation.
-```
-apt install openjdk-11-jre-headless
-apt install maven
-cd core-spring-java
-mvn install -DskipTests
-```
-At the end of this process each jar file was created under service/target like 
-
-```
-cd authorization/target/
-ls arrowhead-authorization-4.2.0.jar
-```
-
-Than you should copy these jar files from core-java-spring to arrowhead-setup
-
-```
-cp /root/core-spring-java/authorization/target/arrowhead-authorization-4.2.0.jar /root/arrowhead-setup/jars/
-cp /root/core-spring-java/certificate-authority/target/arrowhead-certificate-authority-4.2.0.jar /root/arrowhead-setup/jars/
-cp /root/core-spring-java/eventhandler/target/arrowhead-eventhandler-4.2.0.jar /root/arrowhead-setup/jars/
-cp /root/core-spring-java/gatekeeper/target/arrowhead-gatekeeper-4.2.0.jar /root/arrowhead-setup/jars/
-cp /root/core-spring-java/gateway/target/arrowhead-gateway-4.2.0.jar /root/arrowhead-setup/jars/
-cp /root/core-spring-java/orchestrator/target/arrowhead-orchestrator-4.2.0.jar /root/arrowhead-setup/jars/
-cp /root/core-spring-java/serviceregistry/target/arrowhead-serviceregistry-4.2.0.jar /root/arrowhead-setup/jars/
-```
-
-## <a name="installation"></a>Docker installation on Raspberry Pi and Ubuntu
-
-
-
-Installation of the Docker Desktop for Windows and MacOs can be found [here](https://www.docker.com/products/docker-desktop)
-
-### <a name="DoR"></a>Install Docker on Raspbeery Pi
-
-### <a name="DoU"></a>Install Docker on Ubuntu
-
-Docker installation for Ubuntu 20 and Raspberry Pi can be found [here](https://docs.docker.com/engine/install/ubuntu/)
-
-Here is sample installation steps on Ubuntu20.04
-
-```
-sudo apt update
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-sudo apt update
-apt-cache policy docker-ce
-sudo apt install docker-ce
-sudo systemctl status docker
-```
-Executing the Docker Command Without Sudo (Optional)
-
-```
-sudo usermod -aG docker ${USER}
-su - ${USER}
-id -nG
-sudo usermod -aG docker username
+git clone https://github.com/VTT-OM/arrowhead-setup.git
 ```
 
 
+### Requirements
+Requires Docker, which can be installed for Ubuntu or Raspberry Pi following the guide [here](https://docs.docker.com/engine/install/ubuntu/).  
+For windows you need to download and install [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
-Docker-compose installation on Ubuntu20.04
+You also need to separately install docker-compose on Linux systems to which instructions can be found [here](https://docs.docker.com/compose/install/)
 
+
+### Quick guide
+Generate default certificates (may need to run `dos2unix` / `unix2dos` on the script):
 ```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-docker-compose --version
+cd certs/scripts
+./create_p12_certs.sh
+```
+Create volume for database:
+```
+docker volume create --name=mysql
+```
+Start Arrowhead core systems (from repository root folder):
+```
+docker-compose up --build
+```
+Use `sysop` or `client` certificates found in `./certs` to access Arrowhead core systems.
+
+
+Instructions on how to import the `sysop.p12` certificate to your browser can be found [here](https://www.ibm.com/support/knowledgecenter/SSYMRC_6.0.2/com.ibm.team.jp.jrs.doc/topics/t_jrs_brwsr_cert_cfg.html).  
+Default pasword for the `.p12` file is `123456`.
+
+With browser you may now access Arrowhead core Swaggers from:
+```
+https://localhost:8443  # Service registry
+https://localhost:8445  # Authorization
+https://localhost:8441  # Orchestrator
+https://localhost:8449  # Gatekeeper
+https://localhost:8453  # Gateway
 ```
 
 
-## <a name="cert"></a>Certification
-
+### Create certificates
 Certificates are needed for HTTPS communication between the Arrowhead core and client systems.
 
-Insert your information
-Edit the script given at `./certs/scripts/create_p12_certs.sh` with your favorite text editor and insert the infomation about your infrastructure for the below fields:
+
+#### Insert your information
+Edit the script `./certs/scripts/create_p12_certs.sh` with your information to following fields:
 
 - COMPANY
-Your company name
+  - Your company name
 - CLOUD
-Your Arrowhead cloud name
+  - Your Arrowhead cloud name
 - COMMON_SAN
-Append here your dns and/or ip address of Arrowhead core systems host
-Append dns and/or ip addresses you plan to decribe your client systems with
+  - Append here your dns and/or ip address of Arrowhead core systems host
+  - Append dns and/or ip addresses you plan to decribe your client systems with
 - YOUR CLIENTS
-Append to the list of create_consumer_system_keystore your desired client system names
-Also remember to change Arrowhead core properties in `./core_system_config` folder to match:
+  - Append to the list of `create_consumer_system_keystore` your desired client system names
 
+Also remember to change Arrowhead core properties in `./core_system_config` folder to match:
 - `server.ssl.key-alias`
-PKCS #12 password
-You may set your own password to the P12 files before creating the certificates.
-By default the password is 123456.
+
+
+#### PKCS #12 password
+You may set your own password to the P12 files before creating the certificates.  
+By default the password is `123456`.
 
 Edit the script `./certs/scripts/lib_certs.sh` with your desired default password for the .p12 certificate stores.
 
 Also remember to set the same password to Arrowhead core properties in `./core_system_config` folder:
-
 - `server.ssl.key-store-password`
 - `server.ssl.key-password`
 - `server.ssl.trust-store-password`
-Run certificate generation script
 
+
+#### Run certificate generation script
 Create the certificates for both Arrowhead core systems and clients by running the script found in directory:
 ```
 cd ./certs/scripts
@@ -159,60 +117,118 @@ The script generates the certificates into a PKCS #12 (.p12) store within `./cer
 If you run into errors executing the script you may need to run `dos2unix` / `unix2dos` on the script depending on which OS you're using.
 
 
-### <a name="cfl"></a>Create certificates for localclouds
-If you are using your home computer for arrowhead localcloud than you should point you certificate name as localhost and ip address 127.0.0.1 in the `./certs/scripts/create_p12_certs.sh` file
-
-### <a name="cfg"></a>Create certificates for Globalclouds (DNS or StaticIP based)
-
-If you are using your home computer for arrowhead localcloud than you should point you certificate name as `YOUR_DNS_NAME` and ip address `YOUR_STATIC_IP` in the `./certs/scripts/create_p12_certs.sh` file
-
-## <a name="checklist"></a>The checklist before starting Installation
-
-- Is the jar file generated from source?
-- Jar giles moved to destionation folder?
-- Are the certificates generated?
-
-## <a name="ilc"></a>Up and Running Arrowhead Localcloud
-
+### Start Arrowhead Core systems
 Ensure you have the necessary .p12 certificates and truststore for the core systems in `./certs` folder.
 
-Change `MYSQL_ROOT_PASSWORD` within docker-compose.yml.
+Change `MYSQL_ROOT_PASSWORD` within `docker-compose.yml`.
 
 Once Docker is up and running you need to create a volume for the MariaDB database:
 ```
 docker volume create --name=mysql
 ```
-Than run
+
+#### ...with default options
+Run following command to start Arrowhead Core systems with existing docker images:
 ```
-docker-compose -f docker-compose.yml -f docker-compose.jars.yml -f docker-compose.mgmt_tool.yml up --build
+docker-compose up --build
 ```
-You can shutdown the system via pressing `CTRL+C `to interrupt.
+
+
+#### ...with docker images from jars
+Ensure `.jar` packages for core systems are located in `./jars` folder.
+Instuctions on how to build `.jar` files for Arrowhead core systems can be found in [core-java-spring](https://github.com/eclipse-arrowhead/core-java-spring) repository.
+
+```
+docker-compose \
+-f docker-compose.yml \
+-f docker-compose.jars.yml \
+up --build
+```
+
+You may need to use this option to get Arrowhead running on Raspberry Pi as existing docker images may not support RPi processor architecture.
+
+#### ...with lower memory usage (and less performance)
+Recommended when running for example on Raspberry Pi
+
+```
+docker-compose \
+-f docker-compose.yml \
+-f docker-compose.low_mem.yml \
+up --build
+```
+
+
+#### ...with management tool
+```
+docker-compose \
+-f docker-compose.yml \
+-f docker-compose.mgmt_tool.yml \
+up --build
+```
+
+#### ...with jars and low memory
+```
+docker-compose \
+-f docker-compose.yml \
+-f docker-compose.jars.yml \
+-f docker-compose.low_mem.yml \
+up --build
+```
+
+#### ...with all above options
+```
+docker-compose \
+-f docker-compose.yml \
+-f docker-compose.jars.yml \
+-f docker-compose.low_mem.yml \
+-f docker-compose.mgmt_tool.yml \
+up --build
+```
+
+
+### Shut down Arrowhead core systems
+To stop running Arrowhead press `CTRL+C` to interrupt.  
 To clean up any remaining resources run:
 ```
 docker-compose down
 ```
 
-### <a name="miml"></a>Install Mimosa CBM
 
-After the Mariadb is up and running than you should run the sql files on mariadb.
+## P12 certificate unpacking for clients
 
-### <a name="lcgui"></a>Connect Spring UI's over Web Browsers on Windows and MAC
+### Shell script unpack_p12.sh
 
-Download and install sysop.p12 certificate to you computer. 
-Fow windows, double click on the certificate than install the certificate as Personal certificate on your computer. 
-For MacOS
+Utilizes openssl.  
+(May need to run `dos2unix` / `unix2dos` on the script)
 
-### <a name="tyil"></a>Test Your Installation
+Using via command line:
+```
+script:                       path to p12 file:       passphrase:
+./certs/scripts/unpack_p12.sh ./certs/your_client.p12 123456
+```
+Output:
+```
+Created file: ./certs/your_client.crt
+Created file: ./certs/your_client.key
+Created file: ./certs/your_client.ca
+```
 
-## <a name="igc"></a>Install Globalcloud
 
-### <a name="durg"></a>Get the Dockers up and running
+### Command line openssl unpack
 
-### <a name="mimg"></a>Install Mimosa CBM
-
-### <a name="gcgui"></a>Connect Spring UI's over Web Browsers on Windows and MAC
-
-### <a name="tyi"></a>Test Your Installation
-
-## <a name="vig"></a>Video Installation Guides
-
+Certificate
+```
+openssl pkcs12 -in your_client.p12 -clcerts -nokeys > your_client.crt
+```
+Private Key
+```
+openssl pkcs12 -in your_client.p12 -nocerts -nodes > your_client.key
+```
+CA Certificates
+```
+openssl pkcs12 -in your_client.p12 -cacerts -nokeys -chain > your_client.ca
+```
+Show SAN from .crt/.key/.ca:
+```
+openssl x509 -text -noout -in your_client.pem | grep DNS
+```

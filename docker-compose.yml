@@ -1,0 +1,113 @@
+version: "3"
+
+services:
+  mysql:
+    container_name: mysql
+    restart: unless-stopped
+    image: mariadb:10.4
+    environment:
+      - MYSQL_ROOT_PASSWORD=changethispass
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./mariadb_config/mariadb.cnf:/etc/mysql/my.cnf
+      - ./mariadb_config/mysql.conf.d:/etc/mysql/mysql.conf.d/
+      - ./mariadb_config/sql:/docker-entrypoint-initdb.d/
+    ports:
+      - 3306:3306
+
+  serviceregistry:
+    container_name: serviceregistry
+    #restart: unless-stopped
+    image: svetlint/serviceregistry:latest
+    depends_on:
+      - mysql
+    volumes:
+      # dont forget to change the route of the locally available config file
+      # format is <file on your local machine, (change this!!!)>:<file location inside the container (don't change this part!!!)>
+      - ./core_system_config/serviceregistry.properties:/serviceregistry/application.properties
+      - ./certs/service_registry.p12:/serviceregistry/service_registry.p12
+      - ./certs/truststore.p12:/serviceregistry/truststore.p12
+    ports:
+      - 8443:8443
+
+  authorization:
+    container_name: authorization
+    #restart: unless-stopped
+    image: svetlint/authorization:latest
+    depends_on:
+      - mysql
+    volumes:
+      - ./core_system_config/authorization.properties:/authorization/application.properties
+      - ./certs/authorization.p12:/authorization/authorization.p12
+      - ./certs/truststore.p12:/authorization/truststore.p12
+    ports:
+      - 8445:8445
+
+  orchestrator:
+    container_name: orchestrator
+    #restart: unless-stopped
+    image: svetlint/orchestrator:latest
+    depends_on:
+      - mysql
+    volumes:
+      - ./core_system_config/orchestrator.properties:/orchestrator/application.properties
+      - ./certs/orchestrator.p12:/orchestrator/orchestrator.p12
+      - ./certs/truststore.p12:/orchestrator/truststore.p12
+    ports:
+      - 8441:8441
+
+  gatekeeper:
+    container_name: gatekeeper
+    #restart: unless-stopped
+    image: svetlint/gatekeeper:latest
+    depends_on:
+      - mysql
+    volumes:
+      - ./core_system_config/gatekeeper.properties:/gatekeeper/application.properties
+      - ./certs/gatekeeper.p12:/gatekeeper/gatekeeper.p12
+      - ./certs/gk_gw_truststore.p12:/gatekeeper/truststore.p12
+    ports:
+      - 8449:8449
+
+  gateway:
+    container_name: gateway
+    #restart: unless-stopped
+    image: svetlint/gateway:latest
+    depends_on:
+      - mysql
+    volumes:
+      - ./core_system_config/gateway.properties:/gateway/application.properties
+      - ./certs/gateway.p12:/gateway/gateway.p12
+      - ./certs/gk_gw_truststore.p12:/gateway/truststore.p12
+    ports:
+      - 8453:8453
+
+#  eventhandler:
+#    container_name: eventhandler
+#    #restart: unless-stopped
+#    image: svetlint/eventhandler:latest
+#    depends_on:
+#      - mysql
+#    volumes:
+#      - ./core_system_config/eventhandler.properties:/eventhandler/application.properties
+#      - ./certs/event_handler.p12:/eventhandler/event_handler.p12
+#      - ./certs/truststore.p12:/eventhandler/truststore.p12
+#    ports:
+#      - 8455:8455
+
+#  certificateauthority:
+#    container_name: certificateauthority
+#    restart: unless-stopped
+#    image: svetlint/certificateauthority:latest
+#    depends_on:
+#      - mysql
+#    volumes:
+#      - ./core_system_config/certificateauthority.properties:/certificateauthority/application.properties
+#      - ./certs/certificate_authority.p12:/certificateauthority/certificate_authority.p12
+#      - ./certs/truststore.p12:/certificateauthority/truststore.p12
+#    ports:
+#      - 8448:8448
+
+volumes:
+  mysql:
+    external: true

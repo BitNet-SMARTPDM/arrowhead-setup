@@ -1,0 +1,53 @@
+version: "3"
+
+# Build images from Java packages (.jar) found in jars folder
+
+services:
+  serviceregistry:
+    image: serviceregistry:latest
+    build:
+      context: ./
+      args:
+        core_system: serviceregistry
+
+  authorization:
+    image: authorization:latest
+    build:
+      context: ./
+      args:
+        core_system: authorization
+
+  orchestrator:
+    image: orchestrator:latest
+    build:
+      context: ./
+      args:
+        core_system: orchestrator
+
+  gatekeeper:
+    image: gatekeeper:latest
+    build:
+      context: ./
+      args:
+        core_system: gatekeeper
+
+  gateway:
+    image: gateway:latest
+    build:
+      context: ./
+      args:
+        core_system: gateway
+
+#  eventhandler:
+#    image: eventhandler:latest
+#    build:
+#      context: ./
+#      args:
+#        core_system: eventhandler
+
+#  certificateauthority:
+#    image: certificateauthority:latest
+#    build:
+#      context: ./
+#      args:
+#        core_system: certificateauthority
