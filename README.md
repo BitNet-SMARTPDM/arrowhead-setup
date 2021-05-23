@@ -38,9 +38,14 @@ The main purpose of this division is pointing how the Arrowhead installations ar
 <!-- toc -->
 
 ## <a name="TheSystemRequirements"></a>The System Requirements
-Installations requires at least 4GB RAM and 20GB HDD
+Global and Local installations with the all Arrowhead native services requires min 4GB RAM and 20GB HDD
+
+The Current Arrowhead docker images (svetlint) servers arrowhead 4.1.3 (the old version). In order to get have Arrowhead 4.2.0 you should apply below steps on your installation source. 
+
+
 
 ## <a name="installation"></a>Docker installation on Windows, Raspberry and Linux
+
 
 ### <a name="DoC"></a>Install Docker on Windows
 
@@ -49,9 +54,33 @@ Installations requires at least 4GB RAM and 20GB HDD
 ### <a name="DoU"></a>Install Docker on Ubuntu
 
 
-
 ## <a name="cert"></a>Certification
 
 ### <a name="cfl"></a>Create certificates for localclouds
 
 ### <a name="cfg"></a>Create certificates for Globalclouds (DNS or StaticIP based)
+
+## <a name="checklist"></a>The checklist before starting Installation
+
+## <a name="ilc"></a>Install Localclouds
+
+### <a name="durl"></a>Get the Dockers up and running
+
+### <a name="miml"></a>Install Mimosa CBM
+
+### <a name="lcgui"></a>Connect Spring UI's over Web Browsers on Windows and MAC
+
+### <a name="tyil"></a>Test Your Installation
+
+## <a name="igc"></a>Install Globalcloud
+
+### <a name="durg"></a>Get the Dockers up and running
+
+### <a name="mimg"></a>Install Mimosa CBM
+
+### <a name="gcgui"></a>Connect Spring UI's over Web Browsers on Windows and MAC
+
+### <a name="tyi"></a>Test Your Installation
+
+## <a name="vig"></a>Video Installation Guides
+
