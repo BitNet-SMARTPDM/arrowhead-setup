@@ -144,11 +144,24 @@ Once Docker is up and running you need to create a volume for the MariaDB databa
 ```
 docker volume create --name=mysql
 ```
+The last step is, change the environment variables given in `docker-compose.mgmt_tool.yml` with your favorite editor. 
+The environment variables, should be like given below, if your are using localcloud
+- `REACT_APP_ARROWHEAD_SR_URL=https://localhost:8443`
+- `REACT_APP_ARROWHEAD_AUTH_URL=https://localhost:8445
+- `REACT_APP_ARROWHEAD_ORCH_URL=https://localhost:8441`
+- `REACT_APP_ARROWHEAD_GK_URL=https://localhost:8449`
+- `REACT_APP_ARROWHEAD_GW_URL=https://localhost:8453`
+And, the environment variables should be like given below, if your are using globalcloud
+- `REACT_APP_ARROWHEAD_SR_URL=https://YOUR_STATIC_IP:8443`
+- `REACT_APP_ARROWHEAD_AUTH_URL=https://YOUR_STATIC_IP:8445
+- `REACT_APP_ARROWHEAD_ORCH_URL=https://YOUR_STATIC_IP:8441`
+- `REACT_APP_ARROWHEAD_GK_URL=https://YOUR_STATIC_IP:8449`
+- `REACT_APP_ARROWHEAD_GW_URL=https://YOUR_STATIC_IP:8453`
+Now your system is ready to run. 
 
 ```
 docker-compose -f docker-compose.yml -f docker-compose.jars.yml -f docker-compose.mgmt_tool.yml up --build
 ```
-
 
 In order to shutdown the system
 To stop running Arrowhead press `CTRL+C` to interrupt.  
