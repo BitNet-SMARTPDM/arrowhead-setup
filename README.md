@@ -44,7 +44,24 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
+After this step, the first aim is creating arrowhead-4.2.0 jars 
+```
+cd /root/core-spring-java
+mvn install -DskipTests
+```
+At the end of this step, your jar files should be created under `/root/core-spring-java/servicename/target` folder. 
 
+Than these jar files should be copied to our project folder under `jar` directory.
+```
+cp /root/core-spring-java/authorization/target/arrowhead-authorization-4.2.0.jar /root/arrowhead-setup/jars/
+cp /root/core-spring-java/certificate-authority/target/arrowhead-certificate-authority-4.2.0.jar /root/arrowhead-setup/jars/
+cp /root/core-spring-java/eventhandler/target/arrowhead-eventhandler-4.2.0.jar /root/arrowhead-setup/jars/
+cp /root/core-spring-java/gatekeeper/target/arrowhead-gatekeeper-4.2.0.jar /root/arrowhead-setup/jars/
+cp /root/core-spring-java/gateway/target/arrowhead-gateway-4.2.0.jar /root/arrowhead-setup/jars/
+cp /root/core-spring-java/orchestrator/target/arrowhead-orchestrator-4.2.0.jar /root/arrowhead-setup/jars/
+cp /root/core-spring-java/serviceregustry/target/arrowhead-serviceregistry-4.2.0.jar /root/arrowhead-setup/jars/
+```
+Now we will continue with certificate generation.
 
 ### <a name="requirements"></a>Requirements
 In order to get Arrowhead up and running on your system, you should have 4GB of RAM and 10GB of HDD
