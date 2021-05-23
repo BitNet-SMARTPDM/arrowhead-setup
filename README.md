@@ -6,71 +6,52 @@ This project is derived from [Arrowhead framework core project](https://github.c
 
 
 ## Table of Contents <!-- omit in toc -->
-- [Running Arrowhead-4.2.0 core systems with Docker](#running-arrowhead-core-systems-with-docker)
+- [Install Arrowhead-4.2.0 core systems with Docker](#running-arrowhead-core-systems-with-docker)
   - [Requirements](#requirements)
   - [Quick guide](#quick-guide)
-  - [Create certificates](#create-certificates)
+  - [Certificate Generation](#create-certificates)
     - [Insert your information](#insert-your-information)
     - [PKCS #12 password](#pkcs-12-password)
     - [Run certificate generation script](#run-certificate-generation-script)
-  - [Start Arrowhead Core systems](#start-arrowhead-core-systems)
-    - [...with default options](#with-default-options)
-    - [...with docker images from jars](#with-docker-images-from-jars)
-    - [...with lower memory usage (and less performance)](#with-lower-memory-usage-and-less-performance)
-    - [...with management tool](#with-management-tool)
-    - [...with jars and low memory](#with-jars-and-low-memory)
-    - [...with all above options](#with-all-above-options)
-  - [Shut down Arrowhead core systems](#shut-down-arrowhead-core-systems)
+  - [Start Arrowhead-4.2.0](#start-arrowhead-core-systems)
 - [P12 certificate unpacking for clients](#p12-certificate-unpacking-for-clients)
   - [Shell script unpack_p12.sh](#shell-script-unpack_p12sh)
   - [Command line openssl unpack](#command-line-openssl-unpack)
 
 
-## <a name="running-arrowhead-core-systems-with-docker"></a>Running Arrowhead-4.2.0 core systems with Docker
+## <a name="running-arrowhead-core-systems-with-docker"></a>Install Arrowhead-4.2.0 core systems with Docker
+This repository aims to install Arrowhead-4.2.0 on your localcloud and globalcloud. In order to get the system up and running you furst download two repository given in the below. During the installation, we assume that you are root user on your system. 
+
 Clone the repository to your machine with:
 ```
 https://github.com/BitNet-SMARTPDM/arrowhead-setup.git
+https://github.com/arrowhead-f/core-java-spring.git
+```
+Than on your Ubuntu20.04 run the commands given below
+```
+apt update
+apt install openjdk-11-jre-headless
+apt install maven
+Install Docker
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce
+Install Docker-Compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
 ```
 
 
 ### <a name="requirements"></a>Requirements
-Requires Docker, which can be installed for Ubuntu or Raspberry Pi following the guide [here](https://docs.docker.com/engine/install/ubuntu/).  
-For windows you need to download and install [Docker Desktop](https://www.docker.com/products/docker-desktop).
-
-You also need to separately install docker-compose on Linux systems to which instructions can be found [here](https://docs.docker.com/compose/install/)
+In order to get Arrowhead up and running on your system, you should have 4GB of RAM and 10GB of HDD
 
 
-### <a name="quick-guide"></a>Quick guide
-Generate default certificates (may need to run `dos2unix` / `unix2dos` on the script):
-```
-cd certs/scripts
-./create_p12_certs.sh
-```
-Create volume for database:
-```
-docker volume create --name=mysql
-```
-Start Arrowhead core systems (from repository root folder):
-```
-docker-compose up --build
-```
-Use `sysop` or `client` certificates found in `./certs` to access Arrowhead core systems.
 
-
-Instructions on how to import the `sysop.p12` certificate to your browser can be found [here](https://www.ibm.com/support/knowledgecenter/SSYMRC_6.0.2/com.ibm.team.jp.jrs.doc/topics/t_jrs_brwsr_cert_cfg.html).  
-Default pasword for the `.p12` file is `123456`.
-
-With browser you may now access Arrowhead core Swaggers from:
-```
-https://localhost:8443  # Service registry
-https://localhost:8445  # Authorization
-https://localhost:8441  # Orchestrator
-https://localhost:8449  # Gatekeeper
-https://localhost:8453  # Gateway
-```
-
-
-### <a name="create-certificates"></a>Create certificates
+### <a name="create-certificates"></a>Certificate Generation
 Certificates are needed for HTTPS communication between the Arrowhead core and client systems.
 
 
@@ -82,7 +63,7 @@ Edit the script `./certs/scripts/create_p12_certs.sh` with your information to f
 - CLOUD
   - Your Arrowhead cloud name
 - COMMON_SAN
-  - Append here your dns and/or ip address of Arrowhead core systems host
+  - Append here your dns and/or ip address of Arrowhead core systems host (for localclouds this ip should be pointed localhost and 127.0.0.1, for globalclouds this ip should be pointed your external static ip and DNS name)
   - Append dns and/or ip addresses you plan to decribe your client systems with
 - YOUR CLIENTS
   - Append to the list of `create_consumer_system_keystore` your desired client system names
@@ -116,8 +97,28 @@ The script generates the certificates into a PKCS #12 (.p12) store within `./cer
 
 If you run into errors executing the script you may need to run `dos2unix` / `unix2dos` on the script depending on which OS you're using.
 
+vim 
 
-### <a name="start-arrowhead-core-systems"></a>Start Arrowhead Core systems
+### <a name="start-arrowhead-core-systems"></a>Start Arrowhead-4.2.0
+
+You should modify the files under `/root/arrowhead-setup/core_system_config` that will point your certificate name with your favorite editor
+```
+vim authorization.properties
+```
+and change
+`server.ssl.key-alias=authorization.yourcloud.your-company.arrowhead.eu`
+`server.ssl.key-password=123456`
+
+You will apply this steps for
+- `authorization.properties`
+- `certificateauthority.properties`
+- `eventhandler.properties`
+- `gatekeeper.properties`
+- `gateway.properties`
+- `orchestrator.properties`
+- `serviceregistry.properties`
+
+
 Ensure you have the necessary .p12 certificates and truststore for the core systems in `./certs` folder.
 
 Change `MYSQL_ROOT_PASSWORD` within `docker-compose.yml`.
@@ -127,66 +128,12 @@ Once Docker is up and running you need to create a volume for the MariaDB databa
 docker volume create --name=mysql
 ```
 
-#### <a name="with-default-options"></a>...with default options
-Run following command to start Arrowhead Core systems with existing docker images:
 ```
-docker-compose up --build
+docker-compose -f docker-compose.yml -f docker-compose.jars.yml -f docker-compose.mgmt_tool.yml up --build
 ```
 
 
-#### <a name="with-docker-images-from-jars"></a>...with docker images from jars
-Ensure `.jar` packages for core systems are located in `./jars` folder.
-Instuctions on how to build `.jar` files for Arrowhead core systems can be found in [core-java-spring](https://github.com/eclipse-arrowhead/core-java-spring) repository.
-
-```
-docker-compose \
--f docker-compose.yml \
--f docker-compose.jars.yml \
-up --build
-```
-
-You may need to use this option to get Arrowhead running on Raspberry Pi as existing docker images may not support RPi processor architecture.
-
-#### <a name="with-lower-memory-usage-and-less-performance"></a>...with lower memory usage (and less performance)
-Recommended when running for example on Raspberry Pi
-
-```
-docker-compose \
--f docker-compose.yml \
--f docker-compose.low_mem.yml \
-up --build
-```
-
-
-#### <a name="with-management-tool"></a>...with management tool
-```
-docker-compose \
--f docker-compose.yml \
--f docker-compose.mgmt_tool.yml \
-up --build
-```
-
-#### <a name="with-jars-and-low-memory"></a>...with jars and low memory
-```
-docker-compose \
--f docker-compose.yml \
--f docker-compose.jars.yml \
--f docker-compose.low_mem.yml \
-up --build
-```
-
-#### <a name="with-all-above-options"></a>...with all above options
-```
-docker-compose \
--f docker-compose.yml \
--f docker-compose.jars.yml \
--f docker-compose.low_mem.yml \
--f docker-compose.mgmt_tool.yml \
-up --build
-```
-
-
-### <a name="shut-down-arrowhead-core-systems"></a>Shut down Arrowhead core systems
+In order to shutdown the system
 To stop running Arrowhead press `CTRL+C` to interrupt.  
 To clean up any remaining resources run:
 ```
