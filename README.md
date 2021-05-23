@@ -1,7 +1,6 @@
 # arrowhead-setup
 
-This project was created from scripts that can be found found in [Arrowhead framework core project](https://github.com/arrowhead-f/core-java-spring) and [VTT-OM](https://github.com/VTT-OM/arrowhead-setup)
-
+This project was created from scripts that can be found found in [Arrowhead framework core project](https://github.com/arrowhead-f/core-java-spring).
 We divided the Arrowhead installation into two subgroups;
 
 - Localclouds (install arrowhead services that it will run locally on your computer and Raspberry Pi)
