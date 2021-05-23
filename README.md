@@ -153,7 +153,7 @@ The environment variables, should be like given below, if your are using localcl
 - `REACT_APP_ARROWHEAD_GW_URL=https://localhost:8453`
 And, the environment variables should be like given below, if your are using globalcloud
 - `REACT_APP_ARROWHEAD_SR_URL=https://YOUR_STATIC_IP:8443`
-- `REACT_APP_ARROWHEAD_AUTH_URL=https://YOUR_STATIC_IP:8445
+- `REACT_APP_ARROWHEAD_AUTH_URL=https://YOUR_STATIC_IP:8445`
 - `REACT_APP_ARROWHEAD_ORCH_URL=https://YOUR_STATIC_IP:8441`
 - `REACT_APP_ARROWHEAD_GK_URL=https://YOUR_STATIC_IP:8449`
 - `REACT_APP_ARROWHEAD_GW_URL=https://YOUR_STATIC_IP:8453`
