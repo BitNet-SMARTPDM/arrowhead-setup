@@ -9,10 +9,6 @@ We divided the Arrowhead installation into two subgroups;
 
 The main purpose of this division is pointing how the Arrowhead installations are differ between local and static ip or DNS especially on installation, certification, accessing management ui. All the installations depends on the docker. 
 
-- [Heading](#heading)
-  * [Sub-heading](#sub-heading)
-    + [Sub-sub-heading](#sub-sub-heading)
-
 
 # Table of Contents
 - [The System Requirements](#TheSystemRequirements)
