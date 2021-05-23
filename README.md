@@ -42,9 +42,42 @@ The Current Arrowhead docker images (svetlint) servers arrowhead 4.1.3 (the old 
 
 ## <a name="installation"></a>Docker installation on Windows, Raspberry and Linux
 
-Docker installation for Ubuntu 20 and Raspberry Pi can be found [here](https://docs.docker.com/engine/install/ubuntu/)
+
+### <a name="DoC"></a>Install Docker on Windows
+
 
 Installation of the Docker Desktop for Windows and MacOs can be found [here](https://www.docker.com/products/docker-desktop)
+
+### <a name="DoR"></a>Install Docker on Raspbeery Pi
+
+### <a name="DoU"></a>Install Docker on Ubuntu
+
+Docker installation for Ubuntu 20 and Raspberry Pi can be found [here](https://docs.docker.com/engine/install/ubuntu/)
+
+Here is sample installation steps on Ubuntu20.04
+
+```
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce
+sudo systemctl status docker
+```
+Executing the Docker Command Without Sudo (Optional)
+
+```
+sudo usermod -aG docker ${USER}
+su - ${USER}
+id -nG
+sudo usermod -aG docker username
+```
+
+
+
+Docker-compose installation on Ubuntu20.04
 
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -52,14 +85,9 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-### <a name="DoC"></a>Install Docker on Windows
-
-### <a name="DoR"></a>Install Docker on Raspbeery Pi
-
-### <a name="DoU"></a>Install Docker on Ubuntu
-
 
 ## <a name="cert"></a>Certification
+
 
 ### <a name="cfl"></a>Create certificates for localclouds
 
