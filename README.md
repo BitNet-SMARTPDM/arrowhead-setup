@@ -40,6 +40,7 @@ The main purpose of this division is pointing how the Arrowhead installations ar
   - Connect Spring UI's over Web Browsers on Windows and MAC
   - Test Your Installation
 
+<!-- toc -->
 
 ## The System Requirements
 Installations requires at least 4GB RAM and 20GB HDD
