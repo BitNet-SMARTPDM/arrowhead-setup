@@ -43,6 +43,7 @@ The Current Arrowhead docker images (svetlint) servers arrowhead 4.1.3 (the old 
 ## <a name="installation"></a>Docker installation on Windows, Raspberry and Linux
 
 Docker installation for Ubuntu 20 and Raspberry Pi can be found [here](https://docs.docker.com/engine/install/ubuntu/)
+
 Installation of the Docker Desktop for Windows and MacOs can be found [here](https://www.docker.com/products/docker-desktop)
 
 ```
