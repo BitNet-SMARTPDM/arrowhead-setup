@@ -11,34 +11,29 @@ The main purpose of this division is pointing how the Arrowhead installations ar
 - [Heading](#heading)
   * [Sub-heading](#sub-heading)
     + [Sub-sub-heading](#sub-sub-heading)
-- [Heading](#heading-1)
-  * [Sub-heading](#sub-heading-1)
-    + [Sub-sub-heading](#sub-sub-heading-1)
-- [Heading](#heading-2)
-  * [Sub-heading](#sub-heading-2)
-    + [Sub-sub-heading](#sub-sub-heading-2)
 
 
 # Table of Contents
 - [The System Requirements](#TheSystemRequirements)
 - [Docker installation on Windows, Raspberry and Linux](#installation)
-  - Install Docker on Windows
-  - Install Docker on Raspbeery Pi
-  - Install Docker on Ubuntu
-- Certification
-  - Create certificates for localclouds
-  - Create certificates for Globalclouds (DNS or StaticIP based)
-- The checklist before starting Installation
-- Install Localclouds
-  - Get the Dockers up and running
-  - Install Mimosa CBM
-  - Connect Spring UI's over Web Browsers on Windows and MAC
-  - Test Your Installation
-- Install Globalcloud
-  - Get the Dockers up and running
-  - Install Mimosa CBM
-  - Connect Spring UI's over Web Browsers on Windows and MAC
-  - Test Your Installation
+  - [Install Docker on Windows](#DoC)
+  - [Install Docker on Raspbeery Pi](#DoR)
+  - [Install Docker on Ubuntu](#DoU)
+- [Certification](#cert)
+  - [Create certificates for localclouds](#cfl)
+  - [Create certificates for Globalclouds (DNS or StaticIP based)](#cfg)
+- [The checklist before starting Installation](#checklist)
+- [Install Localclouds](#ilc)
+  - [Get the Dockers up and running](#durl)
+  - [Install Mimosa CBM](#miml)
+  - [Connect Spring UI's over Web Browsers on Windows and MAC](#lcgui)
+  - [Test Your Installation](#tyil)
+- [Install Globalcloud](#igc)
+  - [Get the Dockers up and running](#durg)
+  - [Install Mimosa CBM](#mimg)
+  - [Connect Spring UI's over Web Browsers on Windows and MAC](gcgui)
+  - [Test Your Installation](#tyi)
+- [Video Installation Guides](#vig)
 
 <!-- toc -->
 
@@ -47,3 +42,16 @@ Installations requires at least 4GB RAM and 20GB HDD
 
 ## <a name="installation"></a>Docker installation on Windows, Raspberry and Linux
 
+### <a name="DoC"></a>Install Docker on Windows
+
+### <a name="DoR"></a>Install Docker on Raspbeery Pi
+
+### <a name="DoU"></a>Install Docker on Ubuntu
+
+
+
+## <a name="cert"></a>Certification
+
+### <a name="cfl"></a>Create certificates for localclouds
+
+### <a name="cfg"></a>Create certificates for Globalclouds (DNS or StaticIP based)
