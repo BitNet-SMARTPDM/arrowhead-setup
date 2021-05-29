@@ -16,4 +16,29 @@ If you will install Mimosa to the same server as where you installed arrowhead, 
 
 If you will install Mimosa to the another server, than you can follow docker installation from https://github.com/BitNet-SMARTPDM/arrowhead-setup
 
+First of all the MariaDB container get up and running, copy the sql procedures from server to container
+
+with
+###########################################################################
+docker cp Step1_MariaDB.sql contid:/root/
+docker cp Step2_MariaDB.sql contid:/root/
+docker cp Step3_MariaDB.sql contid:/root/
+
+than connect container and login to mariadb via mysql -u root -p 
+
+create database mimosa_db;
+
+use mimosa_db;
+
+source /root/Step1_MariaDB.sql
+
+source /root/Step2_MariaDB.sql
+
+source /root/Step3_MariaDB.sql
+
+#########################################################################################
+
+Now the MIMOSA is installed your DB.
+
+
 First you get the dockers than you can follow video given at the https://www.youtube.com/watch?v=oPKH3jOX8F0
