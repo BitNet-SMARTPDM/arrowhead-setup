@@ -13,6 +13,7 @@ You can find furhter details at https://www.mimosa.org/
 In this document, the mimosa installation on the MariaDB will demonstrated. 
 
 If you will install Mimosa to the same server as where you installed arrowhead, than you should change DB port in the docker-compose.yml
+
 If you will install Mimosa to the another server, than you can follow docker installation from https://github.com/BitNet-SMARTPDM/arrowhead-setup
 
-First you get the dockers than you can follow video given at the 
+First you get the dockers than you can follow video given at the https://www.youtube.com/watch?v=oPKH3jOX8F0
